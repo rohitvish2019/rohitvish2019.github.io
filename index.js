@@ -182,7 +182,7 @@ function clickHandler(event){
 }
 
 function redirectToHeroPage(thisId){
-    window.location.href = './hero.html'
+    window.location.assign('./hero.html');
     localStorage.setItem('ID',thisId);
 }
 
