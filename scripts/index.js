@@ -1,6 +1,8 @@
-console.log("Script loaded");
+//Api url and global variables.
 var domElemnts=[];
 let apiUrl = "https://gateway.marvel.com:443/v1/public/characters?apikey=966e57d18aad5280d7233b15161e5124&hash=73b135a14149184439d58a8c0f6e58c9&ts=1452"
+
+//App initialization.
 
 function initializeApp(){
     loadCrousals(apiUrl);
@@ -12,6 +14,8 @@ function initializeApp(){
     document.getElementById('no-fav').style.display='none';
 
 }
+
+//Load crousals.
 
 function loadCrousals(apiUrl){
     fetch(apiUrl).then(resolve => resolve.json().then(resolvedData =>{
@@ -42,6 +46,8 @@ function loadCrousals(apiUrl){
         
     }))
 }
+
+// Load the list of avengers in backend.
 
 function loadAvengersList(apiUrl){
     fetch(apiUrl).then(resolve => resolve.json().then(resolvedData =>{
@@ -98,15 +104,20 @@ function loadAvengersList(apiUrl){
     }));
 }
 
+//Listener for click.
+
 document.addEventListener('click', function(event){
     clickHandler(event);
-})
+});
 
+
+//Listener for search box.
 document.getElementById('searchBox').addEventListener('keyup',function(event){
     localStorage.setItem('isFav','false');
     searchHandler();
 })
 
+// To add any element to Fav list.
 function addToFav(doc){
     let temp = JSON.parse(localStorage.getItem('data'));
     if(temp == null){
@@ -121,6 +132,8 @@ function addToFav(doc){
     doc.classList.remove('img-white');
     doc.classList.add('img-red');
 }
+
+//To remove any element from fav list.
 
 function removeFromFav(doc){
     let temp = JSON.parse(localStorage.getItem('data'));
@@ -143,6 +156,8 @@ function removeFromFav(doc){
     }
     
 }
+
+//Handeling all clicks.
 
 function clickHandler(event){
     console.log(event.target.id);
@@ -189,10 +204,14 @@ function clickHandler(event){
     }
 }
 
+//Redirection to hero page.
+
 function redirectToHeroPage(thisId){
-    window.location.href = './hero.html'
+    window.location.href = './html/hero.html'
     localStorage.setItem('ID',thisId);
 }
+
+//Search handling.
 
 function searchHandler(){
     document.getElementById('carouselExampleControls').style.display = 'none';
@@ -218,7 +237,7 @@ function searchHandler(){
     }
 }
 
-
+//Get the fav list
 function getMyFav(){
     document.getElementById('carouselExampleControls').style.display = 'none';
     document.getElementById('home-bg').style.display='none';
@@ -227,6 +246,7 @@ function getMyFav(){
     renderFavs();
 }
 
+// Re-render fav list after change.
 function renderFavs(){
     let count =0;
     for(let i=0;i<domElemnts.length;i++){
@@ -249,6 +269,7 @@ function renderFavs(){
     }
 }
 
+//Test function
 function showLocal(){
     console.log(domElemnts.length);
     for(let i=0;i<domElemnts.length;i++){

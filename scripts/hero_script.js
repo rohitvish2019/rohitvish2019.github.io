@@ -1,8 +1,11 @@
+
+//Basic details to create api request
 let url = 'https://gateway.marvel.com/v1/public/characters/';
 let id = localStorage.ID;
 let contextRoot = '?apikey=966e57d18aad5280d7233b15161e5124&hash=73b135a14149184439d58a8c0f6e58c9&ts=1452'
-
 let api = url+localStorage.ID+contextRoot;
+
+// To get thumbnail of superhero.
 function getThumbnail(api){
     fetch(api).then(resolve => resolve.json().then( resolve => {
         let bgImage = document.createElement('img');
@@ -18,20 +21,20 @@ function getThumbnail(api){
             descLocal = "Sorry, No description available for this chacarter";
         }
         document.getElementById('description').innerText = descLocal;
-        console.log(resolve.data.results[0]);
     }))
 }
 let domData=[];
 
+
+// Show the details of comics, stories, series or events.
+
 function showSeriesOrComcisList(api,content){
-    console.log(content);
     let data1;
     let idTrav = 0;
     deleteStuff(domData);
     document.getElementById("no-data").style.display='none';
     domData = [];
     fetch(api).then(resolve => resolve.json().then( resolve => {
-        //data1 = resolve.data.results[0][content].items;
         data1 = resolve.data.results[0][content].items;
         if(data1.length < 3){
             document.getElementById("no-data").style.display='block';
@@ -42,7 +45,6 @@ function showSeriesOrComcisList(api,content){
             let name1 = data1[i].name;
             let name2 = data1[i+1].name;
             let name3 = data1[i+2].name;
-            //console.log(src);
             ele.innerHTML=`
             <div class="aven-list-item">
                 <div style="margin-top: 1.5%; width:30%" class= "aven-details">
@@ -61,7 +63,6 @@ function showSeriesOrComcisList(api,content){
             ele.id = idTrav++;
             ele.classList.add('list-group-item');
             ele.classList.add('project-bg');
-            console.log(data1[i]);
             domData.push(ele.id);
             document.getElementById('listContainer').appendChild(ele);
 
@@ -71,22 +72,24 @@ function showSeriesOrComcisList(api,content){
     
 }
 
+//Event listener for clicks.
+
 document.addEventListener('click', function(event){
     if(event.target.id == 'comics' || event.target.id == 'events' || event.target.id == 'stories' || event.target.id == 'series'){
         showSeriesOrComcisList(api,event.target.id)
     }
 })
 
+//Clear the screen when getting details for other.
 
 function deleteStuff(elements){
-    console.log(elements);
     for(let i=0;i<elements.length;i++){
         document.getElementById(elements[i]).remove();
     }
 }
-console.log("script loaded");
+
+
 getThumbnail(api);
 document.getElementById("no-data").style.display='none';
 
-//showSeriesOrComcisList(api,'stories');
 
