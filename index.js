@@ -8,6 +8,8 @@ function initializeApp(){
     document.getElementById('searchButton').onclick= null;
     document.getElementById('hideAll').style.display = 'none';
     document.getElementById('listContainer').style.display = 'none';
+    document.getElementById('no-results').style.display='none';
+    document.getElementById('no-fav').style.display='none';
 
 }
 
@@ -25,11 +27,10 @@ function loadCrousals(apiUrl){
             name = crousalsData[i].name;
             console.log(crousalsData[i].id);
             ele.innerHTML=`
-                <div class="card" style="width: 40rem; margin-left: 25%; margin-right: 30%; height: 90%;">
-                    <img class="card-img-top" src="${address}" alt="Card image cap" height="70%">
+                <div class="card project-bg custom-crousal" style="width: 40rem; margin-left: 25%; margin-right: 30%; height: 90%;">
+                    <img class="card-img-top project-bg " src="${address}" alt="Card image cap" height="70%" width:"100%">
                     <div class="card-body project-bg" style="text-align: center;">
                         <h1>${name}</h1>
-                        <a class="card-text" id = "${crousalsData[i].id}"><h1>Checkout</h1></a>
                     </div>
                 </div>
             `;
@@ -102,6 +103,7 @@ document.addEventListener('click', function(event){
 })
 
 document.getElementById('searchBox').addEventListener('keyup',function(event){
+    localStorage.setItem('isFav','false');
     searchHandler();
 })
 
@@ -136,6 +138,10 @@ function removeFromFav(doc){
     localStorage.setItem('data',JSON.stringify(newTemp));
     doc.classList.remove('img-red');
     doc.classList.add('img-white');
+    if(document.getElementById('home-bg').style.display=='none' && localStorage.getItem('isFav') == 'true'){
+        renderFavs();
+    }
+    
 }
 
 function clickHandler(event){
@@ -166,8 +172,10 @@ function clickHandler(event){
     }
     else if(thisId == 'searchButton'){
         searchHandler();
+        localStorage.setItem('isFav','false');
     }
     else if(thisId == 'myfav'){
+        localStorage.setItem('isFav','true');
         getMyFav();
     }
 
@@ -182,7 +190,7 @@ function clickHandler(event){
 }
 
 function redirectToHeroPage(thisId){
-    window.location.assign('./hero.html');
+    window.location.href = './hero.html'
     localStorage.setItem('ID',thisId);
 }
 
@@ -191,13 +199,22 @@ function searchHandler(){
     document.getElementById('home-bg').style.display='none';
     document.getElementById('listContainer').style.display='block';
     let pattern = document.getElementById('searchBox').value.toLowerCase();
+    let count=0;
     for(let i=0;i<domElemnts.length;i++){
         if(domElemnts[i].name.toLowerCase().search(pattern) != -1){
             document.getElementById(domElemnts[i].id).style.display='block';
+            count++;
         }
         else{
             document.getElementById(domElemnts[i].id).style.display='none';
         }
+    }
+    if(count == 0){
+        console.log("count is 0");
+        document.getElementById('no-results').style.display='block';
+    }
+    else{
+        document.getElementById('no-results').style.display='none';
     }
 }
 
@@ -206,16 +223,29 @@ function getMyFav(){
     document.getElementById('carouselExampleControls').style.display = 'none';
     document.getElementById('home-bg').style.display='none';
     document.getElementById('listContainer').style.display='block';
+    document.getElementById('no-results').style.display='none';
+    renderFavs();
+}
+
+function renderFavs(){
+    let count =0;
     for(let i=0;i<domElemnts.length;i++){
         let ele = document.getElementById(domElemnts[i].id+"img");
         if(ele.classList[1] == 'img-red'){
             console.log("add me");
+            count++;
             document.getElementById(domElemnts[i].id).style.display='block';
         }
         else{
             console.log("remove me");
             document.getElementById(domElemnts[i].id).style.display='none';
+            console.log( document.getElementById(domElemnts[i].id));
         }
+    }
+    if(count == 0){
+        document.getElementById('no-fav').style.display='block'
+    }else{
+        document.getElementById('no-fav').style.display='none'
     }
 }
 

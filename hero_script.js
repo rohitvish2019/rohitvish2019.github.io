@@ -13,7 +13,11 @@ function getThumbnail(api){
         bgImage.style.borderRadius="1.5rem"
 
         document.getElementById('nameOfChar').innerText = resolve.data.results[0].name;
-        document.getElementById('description').innerText = resolve.data.results[0].description;
+        let descLocal = resolve.data.results[0].description;
+        if(descLocal.length < 2){
+            descLocal = "Sorry, No description available for this chacarter";
+        }
+        document.getElementById('description').innerText = descLocal;
         console.log(resolve.data.results[0]);
     }))
 }
@@ -24,10 +28,14 @@ function showSeriesOrComcisList(api,content){
     let data1;
     let idTrav = 0;
     deleteStuff(domData);
+    document.getElementById("no-data").style.display='none';
     domData = [];
     fetch(api).then(resolve => resolve.json().then( resolve => {
         //data1 = resolve.data.results[0][content].items;
         data1 = resolve.data.results[0][content].items;
+        if(data1.length < 3){
+            document.getElementById("no-data").style.display='block';
+        }
         for(let i=0;i<data1.length;i+=3){
             let val = resolve.data.results[0][content].items[i].name;
             let ele = document.createElement('li');
@@ -37,7 +45,7 @@ function showSeriesOrComcisList(api,content){
             //console.log(src);
             ele.innerHTML=`
             <div class="aven-list-item">
-                <div id= style="margin-top: 1.5%; width:30%" class= "aven-details">
+                <div style="margin-top: 1.5%; width:30%" class= "aven-details">
                     <h6 style="margin-left:2%">${name1}</h6>
                 </div>
                 
@@ -70,14 +78,6 @@ document.addEventListener('click', function(event){
 })
 
 
-
-function showComics(api){
-    fetch(api).then(resolve => resolve.json().then(resolve =>{
-        console.log(resolve.data.results[0].events);
-    }))
-}
-
-
 function deleteStuff(elements){
     console.log(elements);
     for(let i=0;i<elements.length;i++){
@@ -86,6 +86,7 @@ function deleteStuff(elements){
 }
 console.log("script loaded");
 getThumbnail(api);
+document.getElementById("no-data").style.display='none';
 
 //showSeriesOrComcisList(api,'stories');
 
