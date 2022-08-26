@@ -1,0 +1,46 @@
+.project-bg{
+    background: #000000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: antiquewhite;
+       
+}
+
+.main-details{
+    display: flex;
+    justify-content: space-around;
+}
+
+.details-emelemnt{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 20%;
+
+}
+.details-image{
+    width: 35%;
+
+}
+
+.aven-details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid snow;
+    border-radius: 1.5rem;
+    margin-top: 1%;
+    width: 30%;
+}
+
+.list-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.aven-list-item{
+    display: flex;
+    justify-content: space-around;
+    
+}
+
