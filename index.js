@@ -23,12 +23,13 @@ function loadCrousals(apiUrl){
             ele = document.createElement('div');
             address = crousalsData[i].thumbnail.path+"."+crousalsData[i].thumbnail.extension;
             name = crousalsData[i].name;
+            console.log(crousalsData[i].id);
             ele.innerHTML=`
                 <div class="card" style="width: 40rem; margin-left: 25%; margin-right: 30%; height: 90%;">
                     <img class="card-img-top" src="${address}" alt="Card image cap" height="70%">
                     <div class="card-body project-bg" style="text-align: center;">
                         <h1>${name}</h1>
-                        <a href="#" class="card-text"><h1>Checkout</h1></a>
+                        <a class="card-text" id = "${crousalsData[i].id}"><h1>Checkout</h1></a>
                     </div>
                 </div>
             `;
@@ -181,8 +182,8 @@ function clickHandler(event){
 }
 
 function redirectToHeroPage(thisId){
-    module.exports = thisId
-    console.log("Redirecting...");
+    window.location.href = './hero.html'
+    localStorage.setItem('ID',thisId);
 }
 
 function searchHandler(){

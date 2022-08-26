@@ -1,14 +1,19 @@
-let api = 'https://gateway.marvel.com/v1/public/characters/1009150?apikey=966e57d18aad5280d7233b15161e5124&hash=73b135a14149184439d58a8c0f6e58c9&ts=1452';
+let url = 'https://gateway.marvel.com/v1/public/characters/';
+let id = localStorage.ID;
+let contextRoot = '?apikey=966e57d18aad5280d7233b15161e5124&hash=73b135a14149184439d58a8c0f6e58c9&ts=1452'
 
-
+let api = url+localStorage.ID+contextRoot;
 function getThumbnail(api){
     fetch(api).then(resolve => resolve.json().then( resolve => {
         let bgImage = document.createElement('img');
         bgImage.src=resolve.data.results[0].thumbnail.path+'.jpg';
         document.getElementById('bgimage').appendChild(bgImage);
-        bgImage.style.height = "90%";
+        bgImage.style.height = "22rem";
         bgImage.style.width = "90%"
+        bgImage.style.borderRadius="1.5rem"
+
         document.getElementById('nameOfChar').innerText = resolve.data.results[0].name;
+        document.getElementById('description').innerText = resolve.data.results[0].description;
         console.log(resolve.data.results[0]);
     }))
 }
@@ -33,15 +38,15 @@ function showSeriesOrComcisList(api,content){
             ele.innerHTML=`
             <div class="aven-list-item">
                 <div id= style="margin-top: 1.5%; width:30%" class= "aven-details">
-                    <h6>${name1}</h6>
+                    <h6 style="margin-left:2%">${name1}</h6>
                 </div>
                 
                 <div style="margin-top: 1.5%; width:30%" class= "aven-details">
-                  <h6>${name2}</h6>
+                  <h6 style="margin-left:2%">${name2}</h6>
                 </div>
 
                 <div style="margin-top: 1.5%; width:30%" class= "aven-details">
-                  <h6>${name3}</h6>
+                  <h6 style="margin-left:4%">${name3}</h6>
                 </div>
             </div>
             `
